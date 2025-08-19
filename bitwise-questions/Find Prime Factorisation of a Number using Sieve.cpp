@@ -1,5 +1,5 @@
 // User function Template for C++
-
+// Methode 1
 class Solution {
   public:
     void sieve() {}
@@ -36,6 +36,48 @@ class Solution {
                }
             }
         }
+        return ans;
+    }
+};
+
+
+Methode:2
+
+// User function Template for C++
+
+class Solution {
+  public:
+    void sieve() {}
+
+    vector<int> findPrimeFactors(int n) {
+
+        vector<int>spf(n+1);
+        
+        for(int i=2; i<=n; i++)
+        {
+            spf[i] = i;
+        }
+        
+        for(int i=2; i*i<=n; i++)
+        {
+            if(spf[i] == i)
+            {
+                for(int j = i*i; j<=n; j+=i)
+                {
+                    if(spf[j] == j)
+                        spf[j] = i;
+                }
+            }
+        }
+        
+        vector<int>ans;
+        
+        while(n != 1)
+        {
+            ans.push_back(spf[n]);
+            n = n/(spf[n]);
+        }
+        
         return ans;
     }
 };
