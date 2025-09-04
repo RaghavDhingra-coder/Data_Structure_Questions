@@ -1,0 +1,63 @@
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        
+        // int nzero = 0;
+        // int none = 0;
+        // int ntwo = 0;
+        // for(int i=0;i<nums.size();i++)
+        // {
+        //     if(nums[i] == 0)
+        //         nzero++;
+        //     if(nums[i]==1)
+        //         none++;
+        //     if(nums[i]==2)
+        //         ntwo++;
+        // }
+        // int i =0;
+
+        // while(nzero)
+        // {
+        //     nums[i] = 0;
+        //     nzero--;
+        //     i++;
+        // }
+        // while(none)
+        // {
+        //     nums[i] = 1;
+        //     none--;
+        //     i++;
+        // }
+        // while(ntwo)
+        // {
+        //     nums[i] = 2;
+        //     ntwo--;
+        //     i++;
+        // }
+        int n = nums.size();
+
+        int low = 0;
+        int mid = 0;
+        int high = n-1;
+
+        while(mid <= high)
+        {
+            if(nums[mid] == 0)
+            {
+                swap(nums[mid],nums[low]);
+                low++;
+                mid++;
+            }
+            else if(nums[mid] ==1)
+            {
+                mid++;
+            }
+            else
+            {
+                swap(nums[mid],nums[high]);
+                high--;
+            }
+
+        }
+    }
+};
