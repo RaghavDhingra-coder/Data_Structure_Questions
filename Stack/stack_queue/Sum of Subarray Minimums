@@ -1,0 +1,86 @@
+class Solution {
+public:
+
+    vector<int>NSE(vector<int>&arr)
+    {
+        stack<int>stk;
+
+        int n = arr.size();
+
+        vector<int>nse(n);
+
+        for(int i=n-1; i>=0; i--)
+        {
+            while(stk.size()>0 && arr[stk.top()] > arr[i])
+            {
+                stk.pop();
+            }
+            if(stk.size() == 0)
+            {
+                nse[i] = n;
+            }
+            else
+            {
+                nse[i] = stk.top();
+            }
+
+            stk.push(i);
+        }
+
+        return nse;
+    }
+
+    vector<int>PSE(vector<int>& arr)
+    {
+        stack<int>stk;
+        
+        int n = arr.size();
+
+        vector<int>pse(n);
+
+        for(int i=0; i<n; i++)
+        {
+            while(stk.size() > 0 && arr[stk.top()] >= arr[i])
+            {
+                stk.pop();
+            }
+
+            if(stk.size() == 0)
+            {
+                pse[i] = -1;
+            }
+            else
+            {
+                pse[i] = stk.top();
+            }
+            stk.push(i);
+        }
+
+        return pse;
+    }
+
+    int sumSubarrayMins(vector<int>& arr) {
+        
+        vector<int>nse= NSE(arr);
+        vector<int>pse = PSE(arr);
+
+        long long sum = 0;
+
+        int mod = (int)(1e9+7);
+
+        int n = arr.size();
+
+        for(int i=0; i<arr.size(); i++)
+        {
+            long long left = i - pse[i];
+            long long right = nse[i] - i;
+
+            long long a = (left*right*arr[i])%mod;
+
+            sum = (sum + a)%mod;
+        }
+
+        return (int)sum;
+
+    }
+};
