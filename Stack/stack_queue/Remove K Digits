@@ -1,0 +1,65 @@
+class Solution {
+public:
+    string removeKdigits(string nums, int k) {
+        
+        stack<char>stk;
+
+        int n = nums.size();
+
+        for(int i=0; i<n; i++)
+        {
+            while(stk.size() > 0 && k > 0 && (nums[i]-'0') < (stk.top()-'0'))
+            {
+                stk.pop();
+                k--;
+            }
+            stk.push(nums[i]);
+        }
+
+        while(k > 0)
+        {
+            stk.pop();
+            k--;
+        }
+
+        if(stk.size() == 0)
+        {
+            return "0";
+        }
+
+        string res = "";
+
+        while(stk.size() > 0)
+        {
+            res += stk.top();
+            stk.pop();
+        }
+
+        while(res.size() > 0 && res.back() == '0')
+        {
+            res.pop_back();
+        }
+        if(res.size() == 0)
+            return "0";
+
+        reverse(res.begin(),res.end());
+
+        return res;
+    }
+};
+
+
+
+Very Important Note : 
+
+
+Those who is getting Memory Limit Exceeded just do
+
+ans += st.top();
+
+Reason : 
+
+Ya, when you do ans = st.top() + ans it creates copy of both st.top() and ans, since st.top() is a character,
+so, it does not create much effect on memory but ans is string so when ans is very large then it gives you Memory Limit Exceeded but when you do ans += st.top()
+it creates copy of only st.top() 
+so we reduced memory usage but it is in reverse form so you have to reverse the array after the loop.
