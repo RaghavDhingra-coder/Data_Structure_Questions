@@ -1,0 +1,114 @@
+class Solution {
+public:
+
+    vector<int> PSE(vector<int>&heights)
+    {
+        int n = heights.size();
+
+        stack<int>stk;
+
+        vector<int>pse(n);
+
+        for(int i=0; i<n; i++)
+        {
+            while(stk.size() > 0 && heights[stk.top()] >= heights[i])
+            {
+                stk.pop();
+            }
+            if(stk.size() == 0)
+            {
+                pse[i] = -1;
+            }
+            else
+            {
+                pse[i] = stk.top();
+            }
+
+            stk.push(i);
+        }
+
+        return pse;
+    }
+
+    vector<int> NSE(vector<int>&heights)
+    {
+        int n = heights.size();
+
+        stack<int>stk;
+
+        vector<int>nse(n);
+
+        for(int i=n-1; i>=0; i--)
+        {
+            while(stk.size() > 0 && heights[stk.top()] >= heights[i])
+            {
+                stk.pop();
+            }
+
+            if(stk.size() == 0)
+            {
+                nse[i] = n;
+            }
+            else
+            {
+                nse[i] = stk.top();
+            }
+
+            stk.push(i);
+        }
+
+        return nse;
+    }
+
+    int Lhisto(vector<int>nums)
+    {
+        vector<int>nse = NSE(nums);
+        vector<int>pse = PSE(nums);
+
+        int n = nums.size();
+
+        int maxArea = 0;
+
+        for(int i=0; i<nums.size(); i++)
+        {
+            int len = nums[i];
+            int width = (i-pse[i]) + (nse[i]-i) - 1;
+
+            maxArea = max(maxArea,len*width);
+        }
+
+        return maxArea;
+    }
+
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        
+        int n = matrix.size(); // number of rows
+        int m = matrix[0].size(); // number of columns
+
+        vector<vector<int>> psum(n, vector<int>(m));
+
+        for(int j=0; j<m; j++)
+        {
+            int sum = 0;
+
+            for(int i=0; i<n; i++)
+            {
+                sum = sum + (matrix[i][j]-'0');
+
+                if(matrix[i][j] == '0')
+                    sum = 0;
+
+                psum[i][j] = sum;
+            }
+        }
+
+        int maxArea = 0;
+
+        for(int i=0; i<n; i++)
+        {
+            maxArea = max(maxArea,Lhisto(psum[i]));
+        }
+
+        return maxArea;
+    }
+};
