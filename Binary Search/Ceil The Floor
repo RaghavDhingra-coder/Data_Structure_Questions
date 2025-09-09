@@ -1,0 +1,32 @@
+// User code template
+
+class Solution {
+  public:
+    vector<int> getFloorAndCeil(int x, vector<int> &nums) {
+        
+        int f = -1;
+        int c = INT_MAX;
+        
+        int n = nums.size();
+        
+        for(int i=0; i<n; i++)
+        {
+            if((nums[i] <= x) && (nums[i]>f))
+            {
+                f = nums[i];
+            }
+            
+            if((nums[i] >= x) && (nums[i] < c))
+            {
+                c = nums[i];
+            }
+        }
+        
+        if(c == INT_MAX)
+        {
+            return {f,-1};
+        }
+        return {f,c};
+        
+    }
+};
