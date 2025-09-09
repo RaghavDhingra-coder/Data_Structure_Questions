@@ -1,0 +1,46 @@
+// stack approach
+
+class Solution {
+  public:
+    int celebrity(vector<vector<int>>& mat) {
+       
+       int n = mat.size(); // number of candidates
+       
+       stack<int>stk;
+       
+       for(int i=0; i<n; i++)
+       {
+           stk.push(i);
+       }
+       
+       while(stk.size() > 1)
+       {
+           int i = stk.top();
+           stk.pop();
+           
+           int j = stk.top();
+           stk.pop();
+           
+           if(mat[i][j] == 1)
+           {
+               stk.push(j);
+           }
+           else
+           {
+               stk.push(i);
+           }
+       }
+       
+       int celeb = stk.top();
+       
+       for(int i=0; i<n; i++)
+       {
+           if((i != celeb) && ( (mat[i][celeb] == 0) || (mat[celeb][i] == 1) ))
+           {
+               return -1;
+           }
+       }
+       
+       return celeb;
+    }
+};
