@@ -1,0 +1,45 @@
+class Solution {
+  public:
+    double fractionalKnapsack(vector<int>& val, vector<int>& wt, int capacity) {
+        // code here  vector<pair<double,int>>items;
+
+     vector<pair<double,int>>items;
+        for(int i=0; i<val.size(); i++)
+        {
+            items.push_back({((double)val[i]/wt[i]),i});
+        }
+
+        sort(items.begin(),items.end());
+        reverse(items.begin(),items.end());
+
+        vector<long long>v(val.size(),0);
+        vector<long long>w(val.size(),0);
+
+        for(int i=0; i< val.size(); i++)
+        {
+            v[i] = val[items[i].second];
+            w[i] = wt[items[i].second];
+        }
+
+        double ans = 0;
+        for(int i=0; i<v.size(); i++)
+        {
+            if(capacity == 0)
+                break;
+            if(capacity >= w[i])
+            {    ans = ans + v[i];
+                 capacity = capacity - w[i];
+            }
+            else
+            {
+                double t = (double)v[i]/w[i]; // per kg weight
+                ans = ans + t*capacity;
+                capacity = 0;
+            }   
+        }
+
+        return ans;
+    
+        
+    }
+};
