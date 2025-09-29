@@ -49,3 +49,6 @@ public:
         return true;
     }
 };
+
+
+OPtimal = > take 5 and 10 as variable and increment and decrement it as it will reduce the tc then map
